@@ -39,7 +39,7 @@ void Controller::callForHeat(bool value)
         qDebug() << qPrintable(QString("%1 END heat; temp = %2 (%3)")
                                .arg(QDateTime::currentDateTime().toString())
                                .arg(currentTemperature)
-                               .arg(QDateTime::currentDateTime().toSecsSinceEpoch() - callForHeatTime.toSecsSinceEpoch()));
+                               .arg((QDateTime::currentDateTime().toMSecsSinceEpoch() - callForHeatTime.toMSecsSinceEpoch()) / 1000));
         adapter->mqttPublish("gpio/in/0",QString("0"));
         heating = false;
     }
@@ -95,5 +95,5 @@ void Controller::on_mqttMessageReceived(QMQTT::Message message)
 void Controller::on_currentTemperatureReceiveTimerTimeout()
 {
     callForHeat(false);
-    qDebug() << qPrintable(QString("%1 FAULT - temp receive timeout").arg(QDateTime::currentDateTime().toSecsSinceEpoch()));
+    qDebug() << qPrintable(QString("%1 FAULT - temp receive timeout").arg((QDateTime::currentDateTime().toMSecsSinceEpoch()/1000)));
 }
