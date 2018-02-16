@@ -49,7 +49,7 @@ void Controller::callForHeat(bool value)
 void Controller::decideHeat()
 {
     // failsafe
-    if ((QDateTime::currentDateTime().toSecsSinceEpoch() - currentTemperatureAge.toSecsSinceEpoch()) > (60 * 1000)) {
+    if (((QDateTime::currentDateTime().toMSecsSinceEpoch() - currentTemperatureAge.toMSecsSinceEpoch()) / 1000) > (60 * 1000)) {
         qDebug() << qPrintable("FAULT! Temperature too OLD to act!");
         callForHeat(false);
         return;
